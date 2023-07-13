@@ -13,6 +13,7 @@ const router = new Index();
 router.get('/', ctx => {
   ctx.body = {
     code: 200,
+    body: 'docs: https://github.com/ZhuAiQuan/91qmusic/tree/master/static/docs',
     message: 'request success!'
   }
 });
