@@ -30,9 +30,14 @@
   
 `npm install`
 
-
 ## 运行
 `npm start`
+
+
+## 部署
+
+项目已集成vercel 直接fork本项目并在varcel import导入即可部署成功。
+
 
 # 接口文档
 
@@ -228,9 +233,22 @@
 
 请求参数：  
 `word` 搜索词  
-`type` 类型  1单曲2歌手3专辑
-`pageNo` 页码
-`pageSize` 条数
+`type` 类型  1单曲2歌手3专辑  
+`pageNo` 页码  
+`pageSize` 条数  
 
 请求方式：`GET/POST`
 
+## 排行榜
+
+### 榜单
+接口地址：`/top`  
+
+请求方式：`GET/POST`
+
+### 详情
+
+接口地址：`/top/list`  
+请求参数：  
+`id` 榜单id     
+请求方式：`GET/POST`
