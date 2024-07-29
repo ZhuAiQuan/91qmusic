@@ -1,17 +1,19 @@
-import { createSign } from '../utils/sign.js';
-import axios from '../utils/request.js';
-
-export async function sug(word) {
-  const params = createSign({ word });
-  const { data: { data } } = await axios.get('/search/sug', { params });
-  return data
+export function sug(ctx) {
+  const params = {};
+  if (ctx.method === "GET") Object.assign(params, ctx.request.query);
+  else Object.assign(params, ctx.request.body);
+  ctx.state.query = {
+    url: "/search/sug",
+    params,
+  };
 }
 
-export async function search(params) {
-  params.pageNo = params.pageNo || 1;
-  params.pageSize = params.pageSize || 20;
-  params.type = params.type || 1;
-  params = createSign(params);
-  const { data: { data } } = await axios.get('/search', { params });
-  return data
+export function search(ctx) {
+  const params = {};
+  if (ctx.method === 'GET') Object.assign(params, ctx.request.query);
+  else Object.assign(params, ctx.request.body)
+  ctx.state.query = {
+    url: "/search",
+    params,
+  }
 }

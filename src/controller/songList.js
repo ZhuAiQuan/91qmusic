@@ -1,29 +1,26 @@
-import { createSign } from '../utils/sign.js';
-import axios from '../utils/request.js'
-
-export async function getList(params) {
-  params.pageNo = params.pageNo || 1;
-  params.pageSize = params.pageSize || 50;
-  if (!params.subCateId) delete params.subCateId;
-  params = createSign(params);
-  const { data } = await axios.get('/tracklist/list', {
-    params
-  });
-  if (data.data && data.state) return data.data
-  else return null
-};
-
-export async function getCategory() {
-  const params = createSign();
-  const { data } = await axios.get('/tracklist/category', { params });
-  return data?.data || null
+export function getList(ctx) {
+  const params = {};
+  Object.assign(params, ctx.method === "GET" ? ctx.query : ctx.request.body);
+  if (params.id) {
+    params.subCateId = params.id;
+    delete params.id;
+  }
+  ctx.state.query = {
+    url: "/tracklist/list",
+    params,
+  };
 }
 
-export async function detail(params) {
-  params.pageSize = params.pageSize || 50;
-  params = createSign(params);
-  const { data } = await axios.get('/tracklist/info', {
-    params
-  });
-  return data?.data || data
+export function getCategory(ctx) {
+  ctx.state.query = {
+    url: "/tracklist/category",
+  };
+}
+
+export async function detail(ctx) {
+  const params = ctx.method === "GET" ? ctx.request.query : ctx.request.body;
+  ctx.state.query = {
+    url: "/tracklist/info",
+    params,
+  };
 }

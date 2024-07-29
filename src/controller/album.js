@@ -1,24 +1,48 @@
-import { createSign } from '../utils/sign.js';
-import axios from '../utils/request.js';
-
-export async function list(params) {
-  params.pageNo = params.pageNo || 1;
-  params.pageSize = params.pageSize || 50;
-  params = createSign(params);
-  const { data: { data } } = await axios.get('/album/list', { params });
-  return data
+export function list(ctx) {
+  const params = {
+    pageNo: 1,
+    pageSize: 50,
+  };
+  if (ctx.method === "GET") {
+    Object.assign(params, ctx.query);
+  } else {
+    Object.assign(params, ctx.request.body);
+  }
+  ctx.state.query = {
+    url: "/album/list",
+    params,
+  };
 }
 
-export async function info(albumAssetCode) {
-  const params = createSign({ albumAssetCode });
-  const { data: { data } } = await axios.get('/album/info', { params });
-  return data
+export function info(ctx) {
+  const params = {};
+  if (ctx.method === "GET") {
+    params.albumAssetCode = ctx.query.id;
+  } else {
+    params.albumAssetCode = ctx.request.body.id;
+  }
+  ctx.state.query = {
+    url: "/album/info",
+    params,
+  };
 }
 
-export async function xdpublish(params) {
-  params.pageNo = params.pageNo || 1;
-  params.pageSize = params.pageSize || 50;
-  params = createSign(Object.assign(params, { type: 'showstart', moreApi: encodeURIComponent('v1/album/xdpublish'), module_name: encodeURIComponent('秀动发行') }));
-  const { data: { data } } = await axios.get('/album/xdpublish', { params });
-  return data
+export function xdpublish(ctx) {
+  const params = {
+    pageNo: 1,
+    pageSize: 50,
+    type: "showstart",
+    moreApi: encodeURIComponent("v1/album/xdpublish"),
+    module_name: encodeURIComponent("秀动发行"),
+  };
+
+  if (ctx.method === "GET") {
+    Object.assign(params, ctx.query);
+  } else {
+    Object.assign(params, ctx.request.body);
+  }
+  ctx.state.query = {
+    url: "/album/xdpublish",
+    params,
+  };
 }

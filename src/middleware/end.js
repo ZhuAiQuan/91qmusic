@@ -1,9 +1,19 @@
-export default async function(ctx, next) {
+/**
+ * 所有请求结束后执行的回调 先进后出
+ * @param {*} ctx
+ * @param {*} next
+ */
+export default async function (ctx, next) {
   await next();
-  if ((!ctx.body?.data || !Object.keys(ctx.body?.data).length) && ctx.body?.code === 200 && ctx.request?.url !== '/') {// 最终返回结果判断
+  if (ctx.body?.data?.state) {
+    ctx.body = {
+      code: 200,
+      data: ctx.body.data.data,
+    };
+  } else if (ctx.body?.data?.errmsg) {
     ctx.body = {
       code: 500,
-      message: 'system error'
-    }
+      message: ctx.body.data.errmsg,
+    };
   }
 }

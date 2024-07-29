@@ -1,65 +1,23 @@
 import Router from "koa-router";
 import { getSong, detail } from "../controller/song.js";
-import validate from "../middleware/checkPostData.js";
+import { useValidate } from "../middleware/index.js";
+import Joi from "joi";
+import { id } from "../validate/index.js";
 
 const song = new Router();
 
-// 歌曲信息 不包含播放链接
-song.get(
-  "/",
-  async (ctx, next) => validate(ctx, next, ["id"]),
-  async (ctx) => {
-    const { id } = ctx.query;
-    const data = await getSong(id);
-    ctx.body = {
-      data,
-      code: 200,
-      message: "success",
-    };
-  }
+const songParams = id.concat(
+  Joi.object({
+    // rate: Joi.alternatives().try(Joi.number().valid(128, 256, 320), Joi.string().valid('flac')).default(320),
+    rate: Joi.number().valid(64, 128, 320, 3000),
+  })
 );
-song.post(
-  "/",
-  async (ctx, next) => validate(ctx, next, ["id"]),
-  async (ctx) => {
-    const { id } = ctx.request.body;
-    const data = await getSong(id);
-    ctx.body = {
-      data,
-      code: 200,
-      message: "success",
-    };
-  }
-);
+// TSID 歌曲信息 不包含播放链接
+song.all("/", useValidate(id), getSong);
 // 包含播放链接
 /**
  * rate 来自于allRate字段
  */
-song.get(
-  "/detail",
-  async (ctx, next) => validate(ctx, next, ["id"]),
-  async (ctx) => {
-    const { id, rate } = ctx.query;
-    const data = await detail(id, rate || 320);
-    ctx.body = {
-      data,
-      code: 200,
-      message: "success",
-    };
-  }
-);
-song.post(
-  "/detail",
-  async (ctx, next) => validate(ctx, next, ["id"]),
-  async (ctx) => {
-    const { id, rate } = ctx.request.body;
-    const data = await detail(id, rate || 320);
-    ctx.body = {
-      data,
-      code: 200,
-      message: "success",
-    };
-  }
-);
+song.all("/detail", useValidate(songParams), detail);
 
 export default song;

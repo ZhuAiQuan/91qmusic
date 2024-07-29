@@ -1,14 +1,22 @@
-import { createSign } from '../utils/sign.js';
-import axios from '../utils/request.js';
-
-export async function getSong(TSID) {
-  const params = createSign({ TSID });
-  const { data } = await axios.get('/song/info', { params });
-  return data?.data || null
+export function getSong(ctx) {
+  const params = ctx.method === "GET" ? { TSID: ctx.request.query.id } : { TSID: ctx.request.body.id };
+  ctx.state.query = {
+    url: "/song/info",
+    params,
+  };
 }
 
-export async function detail(TSID, rate) {
-  const params = createSign({ TSID, rate });
-  const { data } = await axios.get('/song/tracklink', { params });
-  return data?.data || null
+export function detail(ctx) {
+  const params = {};
+  if (ctx.method === "GET") {
+    Object.assign(params, ctx.request.query);
+  } else {
+    Object.assign(params, ctx.request.body);
+  }
+  params.TSID = params.id;
+  delete params.id;
+  ctx.state.query = {
+    url: "/song/tracklink",
+    params,
+  };
 }

@@ -1,35 +1,62 @@
-import { createSign } from '../utils/sign.js';
-import axios from '../utils/request.js';
-
-export async function index(params) {
-  params.pageNo = params.pageNo || 1;
-  params.pageSize = params.pageSize || 48;
+export function index(ctx) {
+  const params = {
+    pageNo: 1,
+    pageSize: 48,
+    artistFristLetter: "",
+    artistRegion: "",
+    artistGender: "",
+  };
+  if (ctx.method === "GET") {
+    Object.assign(params, ctx.query);
+  } else {
+    Object.assign(params, ctx.request.body);
+  }
   if (!params.artistFristLetter) delete params.artistFristLetter;
   if (!params.artistRegion) delete params.artistRegion;
   if (!params.artistGender) delete params.artistGender;
-  params = createSign(params);
-  const { data: { data } } = await axios.get('/artist/list', { params });
-  return data
+  ctx.state.query = {
+    url: "/artist/list",
+    params,
+  };
 }
 
-export async function singer(artistCode) {
-  const params = createSign({ artistCode });
-  const { data: { data } } = await axios.get('/artist/info', { params });
-  return data
+export function singer(ctx) {
+  const params = {};
+  if (ctx.method === "GET") {
+    params.artistCode = ctx.query.id;
+  } else {
+    params.artistCode = ctx.request.body.id;
+  }
+  ctx.state.query = {
+    url: "/artist/info",
+    params,
+  };
 }
 
-export async function songs(params) {
-  params.pageNo = params.pageNo || 1;
-  params.pageSize = params.pageSize || 50;
-  params = createSign(params);
-  const { data: { data } } = await axios.get('/artist/song', { params });
-  return data
+export function songs(ctx) {
+  const params = {};
+  if (ctx.method === "GET") {
+    Object.assign(params, ctx.query, { artistCode: ctx.query.id });
+  } else {
+    Object.assign(params, ctx.request.body, { artistCode: ctx.request.body.id });
+  }
+  if (params.id) delete params.id;
+  ctx.state.query = {
+    url: "/artist/song",
+    params,
+  };
 }
 
-export async function album(params) {
-  params.pageNo = params.pageNo || 1;
-  params.pageSize = params.pageSize || 15;
-  params = createSign(params);
-  const { data: { data } } = await axios.get('/artist/album', { params });
-  return data
+export function album(ctx) {
+  const params = {};
+  if (ctx.method === "GET") {
+    Object.assign(params, ctx.query, { artistCode: ctx.query.id });
+  } else {
+    Object.assign(params, ctx.request.body, { artistCode: ctx.request.body.id });
+  }
+  params.id && delete params.id;
+  ctx.state.query = {
+    url: "/artist/album",
+    params,
+  };
 }

@@ -1,59 +1,21 @@
 import Router from "koa-router";
 import { sug, search as _search } from "../controller/search.js";
-import validate from "../middleware/checkPostData.js";
+import Joi from "joi";
+import { useValidate } from "../middleware/index.js";
+import { pagination } from '../validate/index.js';
 
 const search = new Router();
 
+const searchParams = Joi.object({
+  type: Joi.number().valid(1, 2, 3).required(),
+});
+const hotword = Joi.object({
+  word: Joi.string().required(),
+});
 /**
  * type 1单曲2歌手3专辑
  */
-search.get(
-  "/",
-  async (ctx, next) => validate(ctx, next, ["word"]),
-  async (ctx) => {
-    const { word, pageSize, pageNo, type } = ctx.query;
-    const data = await _search({ word, pageSize, pageNo, type });
-    ctx.body = {
-      data,
-      code: 200,
-    };
-  }
-);
-search.post(
-  "/",
-  async (ctx, next) => validate(ctx, next, ["word"]),
-  async (ctx) => {
-    const { word, pageSize, pageNo, type } = ctx.request.body;
-    const data = await _search({ word, pageSize, pageNo, type });
-    ctx.body = {
-      data,
-      code: 200,
-    };
-  }
-);
-search.get(
-  "/sug",
-  async (ctx, next) => validate(ctx, next, ["word"]),
-  async (ctx) => {
-    const { word } = ctx.query;
-    const data = await sug(word);
-    ctx.body = {
-      data,
-      code: 200,
-    };
-  }
-);
-search.post(
-  "/sug",
-  async (ctx, next) => validate(ctx, next, ["word"]),
-  async (ctx) => {
-    const { word } = ctx.request.body;
-    const data = await sug(word);
-    ctx.body = {
-      data,
-      code: 200,
-    };
-  }
-);
+search.all("/", useValidate(searchParams.concat(pagination)), _search);
+search.all("/sug", useValidate(hotword), sug);
 
 export default search;
