@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production SECRET=0b50b02fd0d73a9c4c8c3a781c30845f APPID=16073360 node index.js",
-    "dev": "cross-env NODE_ENV=development PORT=2000 SECRET=0b50b02fd0d73a9c4c8c3a781c30845f APPID=16073360 nodemon .bin/www"
+    "start": "cross-env NODE_ENV=production node .bin/www",
+    "dev": "cross-env NODE_ENV=development PORT=2000 nodemon .bin/www"
   },
   "keywords": [
     "千千音乐",
