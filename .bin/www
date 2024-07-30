@@ -18,3 +18,6 @@ app.use(router.routes()).use(router.allowedMethods());
 app.listen(process.env.PORT, () => {
   console.log(`server running at http://localhost:${process.env.PORT}`)
 })
+
+// Ensure the app is exported for Vercel
+export default app.callback();
