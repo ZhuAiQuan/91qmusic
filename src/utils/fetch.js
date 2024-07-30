@@ -58,8 +58,6 @@ export default class HttpFetch {
       method: "get",
       headers: this.headers,
     });
-    console.log(request.url)
-    return
     try {
       const data = await fetch(request).then((res) => res.json());
       cache.set(cacheKey, data);

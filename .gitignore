@@ -6,17 +6,11 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-/PROD
-/TEST
-/DEV
 
 node_modules
 dist
 dist-ssr
 *.local
-.env
-.env.development
-components.d.ts
 
 # Editor directories and files
 /z_tempSave
