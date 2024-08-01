@@ -20,4 +20,4 @@ app.listen(process.env.PORT, () => {
 })
 
 // Ensure the app is exported for Vercel
-export default app;
+// export default app;
