@@ -26,7 +26,8 @@ router.get("/", (ctx) => {
       <title>91q music server</title>
     </head>
     <body>
-      <h1>91q music: <a href="https://zhuaiquan.github.io/91qmusic/#/">docs</a></h1>
+      <h1>须知少日挐云志，曾许人间第一流。</h1>
+      <p>91q music: <a href="https://zhuaiquan.github.io/91qmusic/#/">docs</a></p>
     </body>
     </html>
   `;
