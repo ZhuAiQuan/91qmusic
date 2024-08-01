@@ -11,5 +11,9 @@
       "src": "/(.*)",
       "dest": "src/app.js"
     }
-  ]
+  ],
+  "env": {
+    "APPID": "16073360",
+    "SECRET": "0b50b02fd0d73a9c4c8c3a781c30845f"
+  }
 }
