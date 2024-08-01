@@ -17,21 +17,19 @@ router.get("/", (ctx) => {
   //   message: 'request success!'
   // // }
   // ctx.redirect('/docs')
-  // ctx.body = `
-  //   <!DOCTYPE html>
-  //   <html lang="en">
-  //   <head>
-  //     <meta charset="UTF-8">
-  //     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  //     <title>91q music server</title>
-  //   </head>
-  //   <body>
-  //     <h1>91q music: <a href="https://zhuaiquan.github.io/91qmusic/#/">docs</a></h1>
-  //     <p>当前部署为： ${process.env.NODE_ENV}环境</p>
-  //   </body>
-  //   </html>
-  // `;
-  ctx.body = process.env;
+  ctx.body = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>91q music server</title>
+    </head>
+    <body>
+      <h1>91q music: <a href="https://zhuaiquan.github.io/91qmusic/#/">docs</a></h1>
+    </body>
+    </html>
+  `;
 });
 // router.use('/home', home.routes(), home.allowedMethods());
 router.use("/songList", songList.routes(), songList.allowedMethods());
