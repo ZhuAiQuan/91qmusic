@@ -2,10 +2,10 @@
   "name": "91qmusic",
   "version": "2.0.0",
   "description": "",
-  "main": ".bin/www.js",
+  "main": "src/app.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node .bin/www.js",
-    "dev": "cross-env NODE_ENV=development PORT=2000 nodemon .bin/www"
+    "start": "cross-env NODE_ENV=production node src/app.js",
+    "dev": "cross-env NODE_ENV=development PORT=2000 nodemon src/app.js"
   },
   "keywords": [
     "千千音乐",
