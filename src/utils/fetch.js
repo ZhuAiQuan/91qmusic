@@ -50,7 +50,9 @@ export default class HttpFetch {
     const cacheKey = `${options.url}_${JSON.stringify(options)}`;
     const cacheData = cache.get(cacheKey);
     if (cacheData) {
-      return cacheData;
+      this.ctx.body = {
+        data: cacheData,
+      };
     }
 
     const path = new URLSearchParams(createSign(options.params)).toString();
