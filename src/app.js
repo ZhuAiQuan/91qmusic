@@ -7,7 +7,7 @@ import router from '../src/routes/index.js';
 import static_koa from 'koa-static';
 import path from 'path';
 import { useRequest, useEnd, useParseData } from '../src/middleware/index.js';
-console.log(process.env);
+
 const app = new Koa();
 const assets = '../static';
 const __dirname = path.resolve();

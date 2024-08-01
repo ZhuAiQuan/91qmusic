@@ -27,6 +27,7 @@ router.get("/", (ctx) => {
     </head>
     <body>
       <h1>91q music: <a href="https://zhuaiquan.github.io/91qmusic/#/">docs</a></h1>
+      <p>当前部署为： ${process.env.NODE_ENV}环境</p>
     </body>
     </html>
   `;
